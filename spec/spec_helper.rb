@@ -1,9 +1,13 @@
-require 'rack/test'
-require 'rspec'
-
 ENV['RACK_ENV'] = 'test'
 
-require File.expand_path '../../rebot.rb', __FILE__
+require 'rack/test'
+require 'rspec'
+require 'webmock/rspec'
+
+require_relative '../lib/rebot'
+require_relative 'support/slack_api_helpers'
+
+WebMock.disable_net_connect!(allow_localhost: true)
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -15,4 +19,6 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  # config.include SlackApiHelpers
 end
