@@ -5,6 +5,9 @@ require_relative 'slack/slack_api'
 require_relative 'slack/api/client'
 require_relative 'slack/api/response'
 
+require_relative 'toggl/base'
+require_relative 'toggl/report'
+
 require_relative 'toggl/toggl_api'
 require_relative 'toggl/api/client'
 require_relative 'toggl/api/response'
