@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Slack
   class Api
     class Client

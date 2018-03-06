@@ -24,5 +24,3 @@ module Rebot
 
   module_function(*%i[perform_check])
 end
-
-Rebot.perform_check

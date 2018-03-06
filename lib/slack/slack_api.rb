@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Slack
   class Api
     POST_MESSAGE_PATH = "api/chat.postMessage"
@@ -11,12 +13,12 @@ module Slack
 
     def send_message
       message = client.post(
-        path:   POST_MESSAGE_PATH,
-        header: "application/x-www-form-urlencoded",
+        path:    POST_MESSAGE_PATH,
+        header:  "application/x-www-form-urlencoded",
         options: {
-                   token: ENV.fetch("SLACK_BOT_TOKEN"),
+                   token:   ENV.fetch("SLACK_BOT_TOKEN"),
                    channel: "#general",
-                   text: 'Hi!',
+                   text:    "Hi!",
                    as_user: true,
                  }
       )
