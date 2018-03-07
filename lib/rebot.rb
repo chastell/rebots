@@ -1,5 +1,6 @@
 require 'dotenv'
 require 'faraday'
+require 'json'
 
 require_relative 'slack/slack_api'
 require_relative 'slack/api/client'

@@ -26,12 +26,9 @@ module Toggl
     end
 
     def users_without_entries
-      get_weekly_report.map do |report|
-        [].tap do |missing_entries|
-          parsed_report = Toggl::Report.call(user: report["title"]["user"], entries_summary:report["totals"])
-          missing_entries << parsed_report unless parsed_report[:entries_summary].empty?
-        end
-      end
+      get_weekly_report
+        .map { |report| Toggl::Report.call(user: report["title"]["user"], entries_summary: report["totals"]) }
+          .reject { |report| report[:entries_summary].empty? }
     end
 
     private

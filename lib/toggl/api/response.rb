@@ -3,11 +3,8 @@ module Toggl
     class Response
 
       def self.parse(response)
-        if response.status == 200
-          JSON.parse(response.body)
-        else
-          raise UnknownTogglError.new("Unexpected Toggl API status code: #{response.status}")
-        end
+        raise UnknownTogglError.new("Unexpected Toggl API status code: #{response.status}") unless response.success?
+        JSON.parse(response.body)
       end
     end
   end
