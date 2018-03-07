@@ -24,7 +24,7 @@ module Slack
       )
     end
 
-    def team_members
+    def users
       get_users_list
         .reject { |user| user["is_bot"] }
           .map { |user| { id: user["id"], email: user["profile"]["email"] } }

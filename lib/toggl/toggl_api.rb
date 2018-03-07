@@ -4,6 +4,7 @@ module Toggl
   class Api < Base
     WEEKLY_REPORT_PATH = "/reports/api/v2/weekly"
     ADMIN_DETAILS_PATH = "/api/v8/me"
+    WORKSPACE_USERS_PATH = '/api/v8/workspaces'
     USER_AGENT = "rebot"
 
     attr_reader :client
@@ -19,7 +20,18 @@ module Toggl
           .reject { |report| report[:entries_summary].empty? }
     end
 
+    def users
+      get_users.map { |user| { name: user["fullname"], email: user["email"] } }
+    end
+
     private
+
+    def get_users
+      client.get(path: WORKSPACE_USERS_PATH +
+                       "/#{workspace_id}/" +
+                       "users"
+                )
+    end
 
     def get_weekly_report
       client.get(path: WEEKLY_REPORT_PATH +
