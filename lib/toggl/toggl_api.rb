@@ -12,6 +12,15 @@ module Toggl
       @client = Client.new(ENV["TOGGL_API_TOKEN"])
     end
 
+
+    def users_without_entries
+      get_weekly_report
+        .map { |report| Toggl::Report.call(user: report["title"]["user"], entries_summary: report["totals"]) }
+          .reject { |report| report[:entries_summary].empty? }
+    end
+
+    private
+
     def get_weekly_report
       client.get(path: WEEKLY_REPORT_PATH +
                        "?" +
@@ -24,14 +33,6 @@ module Toggl
                        "since=#{(Time.now - SEVEN_DAYS_IN_SECONDS)}"
       )["data"]
     end
-
-    def users_without_entries
-      get_weekly_report
-        .map { |report| Toggl::Report.call(user: report["title"]["user"], entries_summary: report["totals"]) }
-          .reject { |report| report[:entries_summary].empty? }
-    end
-
-    private
 
     def workspace_id
       @workspace_id ||= client.get(path: ADMIN_DETAILS_PATH).fetch("data").dig("default_wid")
