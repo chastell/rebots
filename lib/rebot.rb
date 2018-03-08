@@ -4,6 +4,7 @@ require 'json'
 
 require_relative 'rebot/users/all'
 require_relative 'rebot/users/without_entries'
+require_relative 'rebot/message'
 
 require_relative 'slack/slack_api'
 require_relative 'slack/api/client'
