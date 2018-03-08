@@ -13,11 +13,9 @@ module Toggl
       @client = Client.new(ENV["TOGGL_API_TOKEN"])
     end
 
-
-    def users_without_entries
+    def users_with_weekly_report
       get_weekly_report
         .map { |report| Toggl::Report.call(user: report["title"]["user"], entries_summary: report["totals"]) }
-          .reject { |report| report[:entries_summary].empty? }
     end
 
     def users

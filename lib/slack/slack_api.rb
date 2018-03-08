@@ -26,11 +26,15 @@ module Slack
 
     def users
       get_users_list
-        .reject { |user| user["is_bot"] }
+        .reject { |user| not_a_team_member?(user) }
           .map { |user| { id: user["id"], email: user["profile"]["email"] } }
     end
 
     private
+
+    def not_a_team_member?(user)
+      user["is_bot"] || user["deleted"] || user["is_restricted"]
+    end
 
     def get_users_list
       client.get(
