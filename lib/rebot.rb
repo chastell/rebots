@@ -23,8 +23,12 @@ module Rebot
   UnknownTogglError = Class.new(NotImplementedError)
 
   def perform_check
-    Slack::Api.new.send_message
-    Toggl::Api.new.get_weekly_report
+    users_without_entries = Users::WithoutEntries.call
+
+    Slack::Api.new.send_message(
+      text: Rebot::Message.call(users: users_without_entries),
+      channel: "#general"
+    )
   end
 
   module_function(*%i[perform_check])

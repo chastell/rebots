@@ -3,12 +3,12 @@ module Rebot
     class WithoutEntries
       attr_reader :all_users
 
-      def initialize(all_users:)
-        @all_users = all_users
+      def initialize
+        @all_users = Users::All.call
       end
 
-      def self.call(all_users:)
-        new(all_users: all_users).call
+      def self.call
+        new.call
       end
 
       def call

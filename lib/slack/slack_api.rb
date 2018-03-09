@@ -18,7 +18,7 @@ module Slack
         options: {
                    token:   ENV.fetch("SLACK_BOT_TOKEN"),
                    channel: channel,
-                   text: "Hey, our Toggl is empty for the following following users",
+                   text: "Hey, our Toggl is empty for the following users",
                    attachments: text,
                    as_user: true,
                  }
