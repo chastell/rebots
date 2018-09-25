@@ -1,6 +1,7 @@
 require 'dotenv'
 require 'faraday'
 require 'json'
+require 'sinatra'
 
 require_relative 'rebot/users/all'
 require_relative 'rebot/users/without_entries'
