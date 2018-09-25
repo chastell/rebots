@@ -32,18 +32,24 @@ module Rebot
     client = Slack::Api.new
 
     users_without_entries.each do |user|
-      client.send_message(
-        options: Rebot::Message::User.call(user: user),
-      )
+      unless excluded_from_check.include?(user[:id])
+        client.send_message(
+          options: Rebot::Message::User.call(user: user),
+        )
+      end
     end
 
     management.each do |id|
       client.send_message(
         options: Rebot::Message::Management.call(
-          users: users_without_entries,
+          users: users_without_entries.delete_if { |user| excluded_from_check.include?(user[:id]) },
           channel: id,
         ),
       )
+    end
+
+    def excluded_from_check
+      ENV["EXLUDED_FROM_CHECK_SLACK_IDS"].split('|')
     end
 
     def management

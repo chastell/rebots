@@ -13,7 +13,7 @@ describe Slack::Api do
     it 'makes call to Slack Api and returns parsed response' do
       expect(client).to receive(:post).with(
         path: Slack::Api::POST_MESSAGE_PATH,
-        header: "application/x-www-form-urlencoded",
+        header: 'application/x-www-form-urlencoded',
         options: {
           token: "token",
           channel: "#general",
