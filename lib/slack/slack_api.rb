@@ -11,17 +11,14 @@ module Slack
       @client = Client.new
     end
 
-    def send_message(text:, channel:)
+    def send_message(options: {})
       client.post(
         path:    POST_MESSAGE_PATH,
         header:  "application/x-www-form-urlencoded",
         options: {
                    token:   ENV.fetch("SLACK_BOT_TOKEN"),
-                   channel: channel,
-                   text: "Hey, our Toggl is empty for the following users",
-                   attachments: text,
                    as_user: true,
-                 }
+                 }.merge(options)
       )
     end
 

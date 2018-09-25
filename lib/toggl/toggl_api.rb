@@ -14,8 +14,11 @@ module Toggl
     end
 
     def users_with_weekly_report
-      get_weekly_report
-        .map { |report| Toggl::Report.call(user: report["title"]["user"], entries_summary: report["totals"]) }
+      get_weekly_report.map do |report|
+        Toggl::Report.new(user:            report["title"]["user"],
+                          entries_summary: report["totals"]
+                         ).prepare!
+      end
     end
 
     def users

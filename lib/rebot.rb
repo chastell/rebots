@@ -4,7 +4,9 @@ require 'json'
 
 require_relative 'rebot/users/all'
 require_relative 'rebot/users/without_entries'
-require_relative 'rebot/message'
+
+require_relative 'rebot/message/user'
+require_relative 'rebot/message/management'
 
 require_relative 'slack/slack_api'
 require_relative 'slack/api/client'
@@ -24,11 +26,28 @@ module Rebot
 
   def perform_check
     users_without_entries = Users::WithoutEntries.call
+    return if users_without_entries.empty?
 
-    Slack::Api.new.send_message(
-      text: Rebot::Message.call(users: users_without_entries),
-      channel: "#general"
-    )
+    client = Slack::Api.new
+
+    users_without_entries.each do |user|
+      client.send_message(
+        options: Rebot::Message::User.call(user: user),
+      )
+    end
+
+    management.each do |id|
+      client.send_message(
+        options: Rebot::Message::Management.call(
+          users: users_without_entries,
+          channel: id,
+        ),
+      )
+    end
+
+    def management
+      ENV["MANAGEMENT_SLACK_IDS"].split('|')
+    end
   end
 
   module_function(*%i[perform_check])

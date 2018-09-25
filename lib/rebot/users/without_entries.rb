@@ -28,12 +28,15 @@ module Rebot
       end
 
       def without_weekly_report
-        @without_weekly_report ||= (all_users + with_weekly_report).group_by { |data| data[:name] }.values
-          .select { |data| data.size == 1 }.map { |data| data.reduce(&:merge) }
+        @without_weekly_report ||= (all_users + with_weekly_report)
+          .group_by { |data| data[:name] }.values
+            .select { |data| data.size == 1 }.map { |data| data.reduce(&:merge) }
       end
 
       def with_no_entries
-        without_weekly_report.map { |user| Toggl::Report.call(user: user[:name], entries_summary: Hash.new) }
+        without_weekly_report.map do |user| 
+          Toggl::Report.new(user: user[:name], entries_summary: Hash.new).prepare!
+        end
       end
     end
   end

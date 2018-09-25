@@ -7,16 +7,14 @@
       @entries_summary = entries_summary
     end
 
-    def call
+    def prepare!
       {
         name: user,
         entries_summary: missing_day_entries
       }
     end
 
-    def self.call(user:, entries_summary:)
-      new(user: user, entries_summary: entries_summary).call
-    end
+    private
 
     def missing_day_entries
       totals_with_days.reject do |day, value| 
