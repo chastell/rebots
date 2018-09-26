@@ -14,7 +14,7 @@ module Slack
     def send_message(options: {})
       client.post(
         path:    POST_MESSAGE_PATH,
-        header:  "application/x-www-form-urlencoded",
+        header:  { "Content-Type": "application/x-www-form-urlencoded" },
         options: {
                    token:   ENV.fetch("SLACK_BOT_TOKEN"),
                    as_user: true,
@@ -37,7 +37,7 @@ module Slack
     def get_users_list
       client.get(
         path: GET_USERS_PATH,
-        header: "application/x-www-form-urlencoded",
+        header: { "Content-Type": "application/x-www-form-urlencoded" },
         options: {
                    token: ENV.fetch("SLACK_BOT_TOKEN"),
                  }

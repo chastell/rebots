@@ -5,7 +5,9 @@ require "rspec"
 require "webmock/rspec"
 
 require_relative "../lib/rebot"
-require_relative "support/slack_api_helpers"
+require_relative "support/rebot_helpers"
+
+Dir.glob("spec/support/*.rb").each { |fn| require_relative "../#{fn}" }
 
 WebMock.disable_net_connect!
 
@@ -19,4 +21,5 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+  config.include SlackApiHelpers
 end

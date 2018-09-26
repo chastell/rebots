@@ -15,16 +15,19 @@ module Slack
 
       def get(path:, header:, options: {})
         response = @client.get(path, options) do |request|
-          request.headers["Content-Type"] = header unless header.empty?
+          request.headers = header unless header.empty?
         end
+
         Response.parse(response.body)
       end
 
       def post(path:, header:, options: {})
-        @client.post(path) do |request|
-          request.headers["Content-Type"] = header unless header.empty?
+        response = @client.post(path) do |request|
+          request.headers = header unless header.empty?
           request.body                    = options unless options.empty?
         end
+
+        Response.parse(response.body)
       end
     end
   end
