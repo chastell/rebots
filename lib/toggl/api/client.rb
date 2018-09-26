@@ -13,6 +13,7 @@ module Toggl
 
       def get(path:)
         response = @client.get(path)
+
         Response.parse(response)
       end
     end
